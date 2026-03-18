@@ -17,8 +17,8 @@ import java.util.stream.Collectors;
 /**
  * AI 能力暴露端点 - 提供 capabilities/list 接口供 AI 模型发现可用技能。
  * <p>
- * <b>安全过滤</b>：自动隐藏所有标记为 JWT 或 SYSTEM 来源的参数，
- * 确保 AI 看到的 API 定义是纯净且安全的。
+ * <b>精简响应</b>：仅返回能力ID、名称、描述和分类信息，不包含参数详情，
+ * 以减少 AI 上下文占用。AI 需要参数详情时可调用单独的详情接口。
  * </p>
  *
  * @author wayne
@@ -50,28 +50,36 @@ public class CapabilitiesEndpoint {
     }
 
     /**
-     * 将动作元数据转为安全的对外暴露格式（过滤非 AI 可见参数）
+     * 将动作元数据转为安全的对外暴露格式
+     * <p>
+     * 包含核心信息和 AI 可见参数（JWT/SYSTEM 参数自动隐藏）：
+     * - actionId: 能力请求的唯一标识
+     * - actionName: 能力名称
+     * - description: 能力描述
+     * - returnDesc: 返回值描述
+     * - abilityName: 所属分类
+     * - abilityDescription: 分类描述
+     * - parameters: AI 可见参数列表
+     * </p>
      */
     private Map<String, Object> toSafeActionInfo(AiActionMeta meta) {
         Map<String, Object> info = new HashMap<>();
         info.put("actionId", meta.getActionId());
         info.put("actionName", meta.getActionName());
         info.put("description", meta.getDescription());
-        info.put("abilityName", meta.getAbilityName());
         info.put("returnDesc", meta.getReturnDesc());
+        info.put("abilityName", meta.getAbilityName());
+        info.put("abilityDescription", meta.getAbilityDescription());
 
-        // 仅暴露 AI 可见的参数（CONVERSATION 来源）
+        // 仅暴露 AI 可见参数（安全过滤）
         List<Map<String, Object>> params = meta.getAiVisibleParams().stream()
                 .map(this::toParamInfo)
                 .collect(Collectors.toList());
-
         info.put("parameters", params);
+
         return info;
     }
 
-    /**
-     * 将参数元数据转为对外暴露格式
-     */
     private Map<String, Object> toParamInfo(AiParamMeta param) {
         Map<String, Object> info = new HashMap<>();
         info.put("name", param.getParamName());
