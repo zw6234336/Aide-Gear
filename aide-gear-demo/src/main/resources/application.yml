@@ -1,0 +1,41 @@
+server:
+  port: 18080
+  shutdown: graceful
+
+spring:
+  application:
+    name: aide-gear-demo
+  profiles:
+    active: dev
+  lifecycle:
+    timeout-per-shutdown-phase: 15s
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    nacos:
+      discovery:
+        enabled: false
+      config:
+        enabled: false
+
+# Aide-Gear 配置
+aide-gear:
+  enabled: true
+  base-path: /aide-gear
+  jwt:
+    header-name: Authorization
+    token-prefix: "Bearer "
+
+# Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+      base-path: /actuator
+
+# Logging
+logging:
+  level:
+    com.aidegear: DEBUG
+    root: INFO

@@ -1,0 +1,14 @@
+server:
+  port: 18080
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        enabled: false
+      config:
+        enabled: false
+
+logging:
+  level:
+    com.aidegear: DEBUG
