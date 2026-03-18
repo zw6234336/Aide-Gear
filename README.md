@@ -1,9 +1,3 @@
-既然咱们把项目定名为 **`Spring-Aix-Linker`**（简称 **AixLink**），作为一个旨在连接遗留系统与未来 AI 生态的桥梁，它的 README 不仅是文档，更是这个项目的“产品白皮书”。
-
-以下是为你整理的标准 README 模板，兼顾了技术深度与产品视野，非常适合你作为独立开发者向团队或合作伙伴展示。
-
------
-
 # Spring-Aix-Linker (AixLink)
 
 **Spring-Aix-Linker** 是一款专为 Spring Cloud 微服务架构设计的 **AI 能力激活插件（Starter）**。它通过极简的注解映射，将传统的业务方法（Local Service）和遗留系统接口（Feign Client）转化为 AI 可感知、可调度的“语义化技能（Skills）”，并原生支持 MCP (Model Context Protocol) 协议对接。
