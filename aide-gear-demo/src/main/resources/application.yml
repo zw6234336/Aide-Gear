@@ -25,6 +25,10 @@ aide-gear:
   jwt:
     header-name: Authorization
     token-prefix: "Bearer "
+  openai:
+    api-key: ${OPENAI_API_KEY:}
+    model-name: ${OPENAI_MODEL_NAME:gpt-4o-mini}
+    base-url: ${OPENAI_BASE_URL:https://api.openai.com/v1}
 
 # Actuator
 management:
