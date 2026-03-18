@@ -1,5 +1,6 @@
 package com.aidegear.demo.controller;
 
+import com.aidegear.common.model.ActionResult;
 import com.aidegear.demo.service.ChatService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.annotation.Resource;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -58,13 +60,14 @@ public class ChatController {
         result.put("question", question);
 
         try {
-            String answer = chatService.chat(question);
-            result.put("answer", answer);
+            List<ActionResult> results = chatService.chat(question);
+            result.put("results", results);
             result.put("success", true);
         } catch (Exception e) {
             log.error("[AideGear] 对话处理失败", e);
-            result.put("answer", "处理失败: " + e.getMessage());
+            result.put("results", List.of());
             result.put("success", false);
+            result.put("errorMessage", e.getMessage());
         }
 
         return result;
